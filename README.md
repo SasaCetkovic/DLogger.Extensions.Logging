@@ -13,7 +13,7 @@ Database logger for ASP.NET Core (an implementation of common logging abstractio
 
 ### Configuration
 
-You need to call the AddDatabaseLogger extension methond on loggerFactory in your Startup.cs file:
+You need to call the `AddDatabaseLogger()` extension methond on loggerFactory in the `Configure()` method of your Startup class:
 ```csharp
 loggerFactory
     .AddDatabaseLogger(Configuration.GetSection("Logging"),
