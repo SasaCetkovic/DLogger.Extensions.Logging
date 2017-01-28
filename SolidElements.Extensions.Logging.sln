@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{164D824C-D8AF-471A-80C2-DF1FECCCC89C}"
+	ProjectSection(SolutionItems) = preProject
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		global.json = global.json
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "SolidElements.Extensions.Logging", "src\SolidElements.Extensions.Logging\SolidElements.Extensions.Logging.xproj", "{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D} = {C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}
+	EndGlobalSection
+EndGlobal
