@@ -3,9 +3,9 @@ Database logger for ASP.NET Core (an implementation of common logging abstractio
 
 
 ### To do:
-- [x] Logging to SQL Server &reg;
+- [x] Logging to SQL Server&reg;
 - [x] Filtering
-- [x] Bulk write to SQL Server &reg;
+- [x] Bulk write to SQL Server&reg;
 - [ ] Logging scopes
 - [ ] Full configurability
 - [ ] Multiple database providers
@@ -22,21 +22,19 @@ loggerFactory
 
 Relevant appsettings.json section:
 ```json
-{
-  "Logging": {
-    "IncludeScopes": false,
-    "BulkWrite": false,
-    "BulkWriteCacheSize": 1000,
-    "LogLevel": {
-      "Default": "Debug",
-      "System": "Warning",
-      "Microsoft": "Warning"
-    }
-  },
-
-  "ConnectionStrings": {
-    "Logging": "Data Source=(local);Initial Catalog=Yahtzee;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+"Logging": {
+  "IncludeScopes": false,
+  "BulkWrite": false,
+  "BulkWriteCacheSize": 1000,
+  "LogLevel": {
+    "Default": "Debug",
+    "System": "Warning",
+    "Microsoft": "Warning"
   }
+},
+
+"ConnectionStrings": {
+  "Logging": "Data Source=(local);Initial Catalog=Yahtzee;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 }
 ```
 
@@ -96,4 +94,4 @@ AS
     );
 ```
 
-##### The information provided here may change in the future, due to implementing new features and/or improving the architecture!
+#### The information provided here may change in the future, due to implementing new features and/or improving the architecture!
