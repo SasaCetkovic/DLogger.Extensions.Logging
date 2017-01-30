@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SolidElements.Extensions.Logging
+namespace DLogger.Extensions.Logging
 {
 	internal class NullDisposable : IDisposable
 	{

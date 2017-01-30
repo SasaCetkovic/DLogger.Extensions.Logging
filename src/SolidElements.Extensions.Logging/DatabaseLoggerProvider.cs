@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
 
-namespace SolidElements.Extensions.Logging
+namespace DLogger.Extensions.Logging
 {
 	public class DatabaseLoggerProvider : ILoggerProvider
 	{

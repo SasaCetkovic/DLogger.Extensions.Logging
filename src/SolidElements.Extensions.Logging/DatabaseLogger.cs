@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using System.Data.SqlClient;
 using System.Data;
 
-namespace SolidElements.Extensions.Logging
+namespace DLogger.Extensions.Logging
 {
 	public class DatabaseLogger : ILogger
 	{

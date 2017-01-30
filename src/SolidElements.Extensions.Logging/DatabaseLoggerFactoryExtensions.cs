@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace SolidElements.Extensions.Logging
+namespace DLogger.Extensions.Logging
 {
     public static class DatabaseLoggerFactoryExtensions
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace SolidElements.Extensions.Logging
+namespace DLogger.Extensions.Logging
 {
     internal static class LogRecordCache
     {
