@@ -1,4 +1,4 @@
-# SolidElements.Extensions.Logging
+# DLogger.Extensions.Logging
 Database logger for ASP.NET Core (an implementation of common logging abstractions)
 
 
@@ -24,7 +24,7 @@ Relevant appsettings.json section:
 ```json
 "Logging": {
   "IncludeScopes": false,
-  "BulkWrite": false,
+  "BulkWrite": true,
   "BulkWriteCacheSize": 1000,
   "LogLevel": {
     "Default": "Debug",
@@ -34,7 +34,7 @@ Relevant appsettings.json section:
 },
 
 "ConnectionStrings": {
-  "Logging": "Data Source=(local);Initial Catalog=Yahtzee;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
+  "Logging": "Data Source=(local);Initial Catalog=MyDatabaseWithLoggingTable;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False"
 }
 ```
 
