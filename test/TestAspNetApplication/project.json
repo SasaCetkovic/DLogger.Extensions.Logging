@@ -4,7 +4,7 @@
       "version": "1.1.0",
       "type": "platform"
     },
-    "SolidElements.Extensions.Logging": "1.0.0-*",
+    "DLogger.Extensions.Logging": "1.0.0-*",
     "Microsoft.Extensions.Configuration.EnvironmentVariables": "1.1.0",
     "Microsoft.Extensions.Configuration.Json": "1.1.0",
     "Microsoft.AspNetCore.Diagnostics": "1.1.0",
