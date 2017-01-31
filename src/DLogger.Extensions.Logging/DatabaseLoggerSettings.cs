@@ -10,6 +10,9 @@ namespace DLogger.Extensions.Logging
 		private IConfiguration _loggingConfiguration;
 		private const int DefaultCacheSize = 100;
 
+
+		#region IDatabaseLoggerSettings Properties
+
 		/// <summary>
 		/// Gets the token that propagates notifications about changes in configuration
 		/// </summary>
@@ -25,14 +28,25 @@ namespace DLogger.Extensions.Logging
 		/// </summary>
 		public int BulkWriteCacheSize { get; }
 
+		/// <summary>
+		/// Gets the IncludeScopes setting
+		/// </summary>
+		public bool IncludeScopes { get; }
 
+		#endregion
+
+
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="loggingConfiguration">The 'Logging' section of the configuration file</param>
 		public DatabaseLoggerSettings(IConfiguration loggingConfiguration)
 		{
 			_loggingConfiguration = loggingConfiguration;
 
 			ChangeToken = loggingConfiguration.GetReloadToken();
 
-			// Set bulk write parameters
+			// Set bulk write properties
 			var bulkWrite = false;
 			var value = _loggingConfiguration["BulkWrite"];
 			bool.TryParse(value, out bulkWrite);
@@ -41,7 +55,16 @@ namespace DLogger.Extensions.Logging
 			int cacheSize;
 			value = _loggingConfiguration["BulkWriteCacheSize"];
 			BulkWriteCacheSize = int.TryParse(value, out cacheSize) ? cacheSize : DefaultCacheSize;
+
+			// Retrieve IncludeScopes setting
+			var includeScopes = false;
+			value = _loggingConfiguration["IncludeScopes"];
+			bool.TryParse(value, out includeScopes);
+			IncludeScopes = includeScopes;
 		}
+
+
+		#region IDatabaseLoggerSettings Methods
 
 		/// <summary>
 		/// Reloads the configuration
@@ -69,5 +92,7 @@ namespace DLogger.Extensions.Logging
 			var value = switches[category];
 			return Enum.TryParse(value, out level);
 		}
+
+		#endregion
 	}
 }

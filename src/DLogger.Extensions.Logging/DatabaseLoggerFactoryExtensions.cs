@@ -8,26 +8,26 @@ namespace DLogger.Extensions.Logging
 		/// <summary>
 		/// Adds custom database logging provider
 		/// </summary>
-		/// <param name="factory"></param>
-		/// <param name="settings"></param>
-		/// <param name="connectionString">Database connection string</param>
+		/// <param name="factory">This <see cref="ILoggerFactory"/> instance</param>
+		/// <param name="settings">Logger settings as a <see cref="IDatabaseLoggerSettings"/> implementation</param>
+		/// <param name="writer"><see cref="IDatabaseLogWriter"/> implementation</param>
 		/// <returns></returns>
-		public static ILoggerFactory AddDatabaseLogger(this ILoggerFactory factory, IDatabaseLoggerSettings settings, string connectionString)
+		public static ILoggerFactory AddDatabaseLogger(this ILoggerFactory factory, IDatabaseLoggerSettings settings, IDatabaseLogWriter writer)
 		{
-			factory.AddProvider(new DatabaseLoggerProvider(settings, connectionString));
+			factory.AddProvider(new DatabaseLoggerProvider(settings, writer));
 			return factory;
 		}
 
 		/// <summary>
 		/// Adds custom database logging provider
 		/// </summary>
-		/// <param name="factory"></param>
+		/// <param name="factory">This <see cref="ILoggerFactory"/> instance</param>
 		/// <param name="loggingConfiguration">Appropriate configuration section</param>
-		/// <param name="connectionString">Database connection string</param>
+		/// <param name="writer"><see cref="IDatabaseLogWriter"/> implementation</param>
 		/// <returns></returns>
-		public static ILoggerFactory AddDatabaseLogger(this ILoggerFactory factory, IConfiguration loggingConfiguration, string connectionString)
+		public static ILoggerFactory AddDatabaseLogger(this ILoggerFactory factory, IConfiguration loggingConfiguration, IDatabaseLogWriter writer)
 		{
-			return factory.AddDatabaseLogger(new DatabaseLoggerSettings(loggingConfiguration), connectionString);
+			return factory.AddDatabaseLogger(new DatabaseLoggerSettings(loggingConfiguration), writer);
 		}
 	}
 }

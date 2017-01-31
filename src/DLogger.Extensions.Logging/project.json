@@ -1,5 +1,8 @@
-﻿{
-  "version": "1.0.0-*",
+{
+  "title": "DLogger.Extensions.Logging",
+  "description": "Database logger for ASP.NET Core",
+  "language": "en",
+  "version": "1.1.0-*",
 
   "dependencies": {
     "FastMember": "1.1.0",

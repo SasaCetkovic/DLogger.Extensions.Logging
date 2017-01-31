@@ -31,8 +31,9 @@ namespace TestAspNetApplication
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+			var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
             loggerFactory.AddConsole(Configuration.GetSection("Logging"))
-						 .AddDatabaseLogger(Configuration.GetSection("Logging"), Configuration.GetConnectionString("Logging"));
+						 .AddDatabaseLogger(Configuration.GetSection("Logging"), logWriter);
 
             if (env.IsDevelopment())
             {

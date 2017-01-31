@@ -21,6 +21,11 @@ namespace DLogger.Extensions.Logging
 		IChangeToken ChangeToken { get; }
 
 		/// <summary>
+		/// Gets the IncludeScopes setting
+		/// </summary>
+		bool IncludeScopes { get; }
+
+		/// <summary>
 		/// Reloads the configuration
 		/// </summary>
 		/// <returns>New <see cref="IDatabaseLoggerSettings"/> instance</returns>

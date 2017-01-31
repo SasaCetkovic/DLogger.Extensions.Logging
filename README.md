@@ -6,24 +6,24 @@ Database logger for ASP.NET Core (an implementation of common logging abstractio
 - [x] Logging to SQL Server&reg;
 - [x] Filtering
 - [x] Bulk write to SQL Server&reg;
-- [ ] Logging scopes
+- [x] Logging scopes
 - [ ] Full configurability
-- [ ] Multiple database providers
+- [x] Multiple database providers possible
 
 
 ### Configuration
 
 You need to call the `AddDatabaseLogger()` extension methond on loggerFactory in the `Configure()` method of your Startup class:
 ```csharp
-loggerFactory
-    .AddDatabaseLogger(Configuration.GetSection("Logging"),
-                       Configuration.GetConnectionString("Logging"));
+var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
+loggerFactory.AddDatabaseLogger(Configuration.GetSection("Logging"), logWriter);
 ```
+You can now implement `IDatabaseLogWriter` interface for working with other database providers.
 
 Relevant appsettings.json section:
 ```json
 "Logging": {
-  "IncludeScopes": false,
+  "IncludeScopes": true,
   "BulkWrite": true,
   "BulkWriteCacheSize": 1000,
   "LogLevel": {
@@ -51,6 +51,7 @@ CREATE TABLE dbo.Logging
     [LogTime]   datetime            NOT NULL,
     [EventID]   int                 NULL,
     [EventName] varchar(256)        NULL,
+    [Scope]     varchar(4000)       NULL,
     [Message]   varchar(4000)       NOT NULL,
     [Exception] varchar(max)        NULL
     
@@ -61,11 +62,13 @@ CREATE TABLE dbo.Logging
 ) ON [PRIMARY];
 
 
-CREATE PROCEDURE dbo.LogRecordInsert (
+CREATE PROCEDURE dbo.LogRecordInsert
+(
     @eventID    int = NULL,
     @eventName  varchar(256) = NULL,
     @logLevel   varchar(24),
     @category   varchar(256) = NULL,
+    @scope      varchar(4000) = NULL,
     @message    varchar(4000),
     @logTime    datetime,
     @exception  varchar(4000) = NULL
@@ -79,6 +82,7 @@ AS
         [LogLevel], 
         [Category], 
         [LogTime],  
+        [Scope],  
         [Message],  
         [Exception]         
     )
@@ -89,6 +93,7 @@ AS
         @logLevel,
         @category,
         @logTime,
+        @scope,
         @message,
         @exception
     );

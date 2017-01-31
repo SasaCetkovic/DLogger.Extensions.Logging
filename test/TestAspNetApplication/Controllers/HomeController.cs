@@ -16,13 +16,29 @@ namespace TestAspNetApplication.Controllers
         public IActionResult Index()
         {
 			_logger.LogInformation("Inside Index()");
-            return View();
+
+			using (_logger.BeginScope("Index scope"))
+			{
+				_logger.LogInformation("first scope level");
+
+				using (_logger.BeginScope("second index scope"))
+				{
+					_logger.LogInformation("second scope level");
+				}
+			}
+
+			return View();
         }
 
         public IActionResult About()
         {
-			_logger.LogDebug("Inside About()");
-            ViewData["Message"] = "Your application description page.";
+			// Test bulk write feature
+			for (int i = 0; i < 1000; i++)
+			{
+				_logger.LogDebug("Inside About()");
+			}
+
+			ViewData["Message"] = "Your application description page.";
 
             return View();
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
-using System.Data.SqlClient;
-using System.Data;
+using DLogger.Extensions.Logging.Internal;
+using System.Text;
 
 namespace DLogger.Extensions.Logging
 {
@@ -9,24 +9,17 @@ namespace DLogger.Extensions.Logging
 	{
 		private string _connectionString;
 		private Func<string, LogLevel, bool> _filter;
+		private IDatabaseLogWriter _writer;
 
 
 		#region Properties
 
 		/// <summary>
-		/// Gets or sets the value indicating if log records should be witten to database in bulk
-		/// </summary>
-		public bool BulkWrite { get; set; }
-
-		/// <summary>
-		/// Gets or sets the maximum number of log records that should be kept in cache, before flushing them to database
-		/// </summary>
-		public int BulkWriteCacheSize { get; set; }
-
-		/// <summary>
 		/// Log category
 		/// </summary>
 		public string Category { get; }
+
+		public IDatabaseLoggerSettings Settings { get; set; }
 
 		/// <summary>
 		/// Gets or sets the delegate used for filtering whether a log record should be discarded
@@ -48,13 +41,12 @@ namespace DLogger.Extensions.Logging
 		#endregion
 
 
-		public DatabaseLogger(string category, Func<string, LogLevel, bool> filter, string connectionString, bool bulkWrite, int bulkWriteCacheSize)
+		public DatabaseLogger(string category, Func<string, LogLevel, bool> filter, IDatabaseLogWriter writer, IDatabaseLoggerSettings settings)
 		{
-			_connectionString = connectionString;
+			_writer = writer;
 			_filter = filter;
 			Category = category;
-			BulkWrite = bulkWrite;
-			BulkWriteCacheSize = bulkWriteCacheSize;
+			Settings = settings;
 		}
 
 
@@ -62,8 +54,10 @@ namespace DLogger.Extensions.Logging
 
 		public IDisposable BeginScope<TState>(TState state)
 		{
-			// TODO: Implement scopes; nothing to dispose of for now
-            return NullDisposable.Instance;
+			if (state == null)
+				throw new ArgumentNullException(nameof(state));
+
+			return LogScope.Push(state.ToString());
 		}
 
 		public bool IsEnabled(LogLevel logLevel)
@@ -75,12 +69,12 @@ namespace DLogger.Extensions.Logging
 		{
 			if (!IsEnabled(logLevel)) return;
 
-			var log = new LogRecord(eventId.Id, eventId.Name, logLevel, Category, state.ToString(), exception);
+			var log = new LogRecord(eventId.Id, eventId.Name, logLevel, Category, GetScope(), state.ToString(), exception);
 
-			if (BulkWrite)
+			if (Settings.BulkWrite)
 				WriteBulk(log);
 			else
-				WriteLog(log);
+				_writer.WriteLog(log);
 		}
 
 		#endregion
@@ -92,28 +86,34 @@ namespace DLogger.Extensions.Logging
 		{
 			LogRecordCache.Add(log);
 
-			if (LogRecordCache.IsFull(BulkWriteCacheSize))
+			if (LogRecordCache.IsFull(Settings.BulkWriteCacheSize))
 			{
-				LogRecordCache.Flush(_connectionString);
+				LogRecordCache.Flush(_writer);
 			}
 		}
 
-		private void WriteLog(LogRecord log)
+		private string GetScope()
 		{
-			using (var connection = new SqlConnection(_connectionString))
-			using (var command = new SqlCommand("LogRecordInsert", connection))
+			if (!Settings.IncludeScopes)
+				return null;
+
+			var current = LogScope.Current;
+			var scope = new StringBuilder();
+
+			while (current != null)
 			{
-				connection.Open();
-				command.CommandType = CommandType.StoredProcedure;
-				command.Parameters.AddWithValue("@eventID", log.EventId);
-				command.Parameters.AddWithValue("@eventName", log.EventName);
-				command.Parameters.AddWithValue("@logLevel", log.LogLevel.ToString());
-				command.Parameters.AddWithValue("@category", log.Category);
-				command.Parameters.AddWithValue("@message", log.Message);
-				command.Parameters.AddWithValue("@logTime", log.LogTime);
-				command.Parameters.AddWithValue("@exception", log.Exception?.ToString());
-				command.ExecuteNonQuery();
+				scope.Append(current);
+
+				if (current.Parent != null)
+				{
+					scope.AppendLine();
+					scope.Append("=> ");
+				}
+
+				current = current.Parent;
 			}
+
+			return scope.ToString();
 		}
 
 		#endregion

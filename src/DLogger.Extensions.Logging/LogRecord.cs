@@ -3,14 +3,15 @@ using System;
 
 namespace DLogger.Extensions.Logging
 {
-    internal class LogRecord
+    public class LogRecord
     {
-		public LogRecord(int eventId, string eventName, LogLevel logLevel, string categoryName, string message, Exception exception = null)
+		public LogRecord(int eventId, string eventName, LogLevel logLevel, string categoryName, string scope, string message, Exception exception = null)
 		{
 			EventId = eventId;
 			EventName = eventName;
 			LogLevel = logLevel;
 			Category = categoryName;
+			Scope = scope;
 			Message = message;
 			Exception = exception;
 			LogTime = DateTime.Now;
@@ -25,6 +26,8 @@ namespace DLogger.Extensions.Logging
 		public string Category { get; }
 
 		public DateTime LogTime { get; }
+
+		public string Scope { get; }
 
 		public string Message { get; }
 

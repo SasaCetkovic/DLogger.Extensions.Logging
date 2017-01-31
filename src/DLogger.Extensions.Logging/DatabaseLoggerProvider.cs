@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
+using DLogger.Extensions.Logging.Internal;
 
 namespace DLogger.Extensions.Logging
 {
@@ -11,15 +12,15 @@ namespace DLogger.Extensions.Logging
 
 		private readonly ConcurrentDictionary<string, DatabaseLogger> _loggers = new ConcurrentDictionary<string, DatabaseLogger>();
 
-		private string _connectionString;
 		private IDatabaseLoggerSettings _settings;
+		private IDatabaseLogWriter _writer;
 
 		#endregion
 
 
 		#region Constructor
 
-		public DatabaseLoggerProvider(IDatabaseLoggerSettings settings, string connectionString)
+		public DatabaseLoggerProvider(IDatabaseLoggerSettings settings, IDatabaseLogWriter writer)
 		{
 			if (settings == null)
 			{
@@ -27,7 +28,7 @@ namespace DLogger.Extensions.Logging
 			}
 
 			_settings = settings;
-			_connectionString = connectionString;
+			_writer = writer;
 
 			if (_settings.ChangeToken != null)
 			{
@@ -42,7 +43,7 @@ namespace DLogger.Extensions.Logging
 
 		public ILogger CreateLogger(string category)
 		{
-			var logger = new DatabaseLogger(category, GetFilter(category), _connectionString, _settings.BulkWrite, _settings.BulkWriteCacheSize);
+			var logger = new DatabaseLogger(category, GetFilter(category), _writer, _settings);
 			return _loggers.GetOrAdd(category, logger);
 		}
 
@@ -50,7 +51,7 @@ namespace DLogger.Extensions.Logging
 		{
 			if (!LogRecordCache.IsEmpty)
 			{
-				LogRecordCache.Flush(_connectionString);
+				LogRecordCache.Flush(_writer);
 			}
 		}
 
@@ -66,14 +67,13 @@ namespace DLogger.Extensions.Logging
 
 			if (!LogRecordCache.IsEmpty)
 			{
-				LogRecordCache.Flush(_connectionString);
+				LogRecordCache.Flush(_writer);
 			}
 
 			foreach (var logger in _loggers.Values)
 			{
 				logger.Filter = GetFilter(logger.Category);
-				logger.BulkWrite = _settings.BulkWrite;
-				logger.BulkWriteCacheSize = _settings.BulkWriteCacheSize;
+				logger.Settings = _settings;
 			}
 
 			// The token will change each time it reloads, so we need to register again.
