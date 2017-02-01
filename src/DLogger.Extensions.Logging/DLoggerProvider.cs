@@ -1,26 +1,25 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
+﻿using DLogger.Extensions.Logging.Contracts;
 using DLogger.Extensions.Logging.Internal;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace DLogger.Extensions.Logging
 {
-	public class DatabaseLoggerProvider : ILoggerProvider
+	public class DLoggerProvider : ILoggerProvider
 	{
 		#region Private Fields
 
-		private readonly ConcurrentDictionary<string, DatabaseLogger> _loggers = new ConcurrentDictionary<string, DatabaseLogger>();
+		private readonly ConcurrentDictionary<string, DLogger> _loggers = new ConcurrentDictionary<string, DLogger>();
 
-		private IDatabaseLoggerSettings _settings;
-		private IDatabaseLogWriter _writer;
+		private ILoggerSettings _settings;
+		private ILogWriter _writer;
 
 		#endregion
 
 
-		#region Constructor
-
-		public DatabaseLoggerProvider(IDatabaseLoggerSettings settings, IDatabaseLogWriter writer)
+		public DLoggerProvider(ILoggerSettings settings, ILogWriter writer)
 		{
 			if (settings == null)
 			{
@@ -36,14 +35,12 @@ namespace DLogger.Extensions.Logging
 			}
 		}
 
-		#endregion
-
 
 		#region ILoggerProvider Implementation
 
 		public ILogger CreateLogger(string category)
 		{
-			var logger = new DatabaseLogger(category, GetFilter(category), _writer, _settings);
+			var logger = new DLogger(category, GetFilter(category), _writer, _settings);
 			return _loggers.GetOrAdd(category, logger);
 		}
 

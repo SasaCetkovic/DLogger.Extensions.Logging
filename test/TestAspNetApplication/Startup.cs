@@ -33,7 +33,7 @@ namespace TestAspNetApplication
         {
 			var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
             loggerFactory.AddConsole(Configuration.GetSection("Logging"))
-						 .AddDatabaseLogger(Configuration.GetSection("Logging"), logWriter);
+						 .AddDLogger(Configuration.GetSection("Logging"), logWriter);
 
             if (env.IsDevelopment())
             {

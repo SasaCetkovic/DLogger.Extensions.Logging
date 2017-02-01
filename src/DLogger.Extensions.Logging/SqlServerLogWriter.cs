@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using DLogger.Extensions.Logging;
-using System.Data.SqlClient;
-using System.Data;
+﻿using DLogger.Extensions.Logging.Contracts;
 using FastMember;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
 using System.Threading;
 
 namespace DLogger.Extensions.Logging
 {
-	public class SqlServerLogWriter : IDatabaseLogWriter
+	public class SqlServerLogWriter : ILogWriter
 	{
 		private Dictionary<string, string> _columnMappings;
+		private string _connectionString;
 
-		public string ConnectionString { get; set; }
-
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="connectionString">Connection string for the logging database</param>
 		public SqlServerLogWriter(string connectionString)
 		{
-			ConnectionString = connectionString;
+			_connectionString = connectionString;
 			_columnMappings = new Dictionary<string, string>
 			{
 				{ "EventId", "EventID" },
@@ -32,10 +33,17 @@ namespace DLogger.Extensions.Logging
 			};
 		}
 
+		/// <summary>
+		/// Writes a collection of log records to database at once
+		/// </summary>
+		/// <param name="logs">List of <see cref="LogRecord"/> objects</param>
+		/// <param name="lockObject">Locking object</param>
+		/// <param name="flushingInProgress">Indicates if writing process is still in progress; set to false at the end of this method</param>
+		/// <exception cref="SqlException">If opening a connection through the provided connection string was not possible</exception>
 		public void WriteBulk(List<LogRecord> logs, object lockObject, ref bool flushingInProgress)
 		{
 			var lockTaken = false;
-			var connection = new SqlConnection(ConnectionString);
+			var connection = new SqlConnection(_connectionString);
 			connection.Open();
 			var transaction = connection.BeginTransaction();
 
@@ -80,9 +88,13 @@ namespace DLogger.Extensions.Logging
 			}
 		}
 
+		/// <summary>
+		/// Writes a single log record to database
+		/// </summary>
+		/// <param name="logRecord"><see cref="LogRecord"/> instance to be written</param>
 		public void WriteLog(LogRecord log)
 		{
-			using (var connection = new SqlConnection(ConnectionString))
+			using (var connection = new SqlConnection(_connectionString))
 			using (var command = new SqlCommand("LogRecordInsert", connection))
 			{
 				connection.Open();

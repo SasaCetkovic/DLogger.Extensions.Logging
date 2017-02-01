@@ -3,22 +3,25 @@ Database logger for ASP.NET Core (an implementation of common logging abstractio
 
 
 ### To do:
-- [x] Logging to SQL Server&reg;
 - [x] Filtering
-- [x] Bulk write to SQL Server&reg;
 - [x] Logging scopes
-- [ ] Full configurability
-- [x] Multiple database providers possible
+- [x] Options for caching and bulk writing
+- [x] Make multiple storage implementations possible
+- [x] `ILogWriter` implementation for SQL Server&reg;
+- [ ] `ILogWriter` implementation for SQLite
+- [ ] `ILogWriter` implementation for PostgreSQL
+- [ ] `ILogWriter` implementation for MySQL
+
+**You can implement `DLogger.Extensions.Logging.Contracts.ILogWriter` interface for working with any database, permanent storage, or actually anything.**
 
 
 ### Configuration
 
-You need to call the `AddDatabaseLogger()` extension methond on loggerFactory in the `Configure()` method of your Startup class:
+You need to call the `AddDLogger()` extension methond on loggerFactory in the `Configure()` method of your Startup class:
 ```csharp
 var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
-loggerFactory.AddDatabaseLogger(Configuration.GetSection("Logging"), logWriter);
+loggerFactory.AddDLogger(Configuration.GetSection("Logging"), logWriter);
 ```
-You can now implement `IDatabaseLogWriter` interface for working with other database providers.
 
 Relevant appsettings.json section:
 ```json
@@ -38,10 +41,12 @@ Relevant appsettings.json section:
 }
 ```
 
+You can take a look at some example usages in the `TestAspNetApplication` project.
 
-### Database Requirements
 
-The logger currently requires the following table and stored procedure in the database:
+### Database Requirements for `SqlServerLogWriter`
+
+The `SqlServerLogWriter` requires the following table and stored procedure in the database:
 ```sql
 CREATE TABLE dbo.Logging
 (
@@ -98,5 +103,3 @@ AS
         @exception
     );
 ```
-
-#### The information provided here may change in the future, due to implementing new features and/or improving the architecture!

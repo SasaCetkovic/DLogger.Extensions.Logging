@@ -1,10 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 
-namespace DLogger.Extensions.Logging
+namespace DLogger.Extensions.Logging.Contracts
 {
     public class LogRecord
     {
+		public LogRecord() { }
+
 		public LogRecord(int eventId, string eventName, LogLevel logLevel, string categoryName, string scope, string message, Exception exception = null)
 		{
 			EventId = eventId;

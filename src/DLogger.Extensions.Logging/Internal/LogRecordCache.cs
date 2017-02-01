@@ -1,9 +1,5 @@
-﻿using FastMember;
+﻿using DLogger.Extensions.Logging.Contracts;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DLogger.Extensions.Logging.Internal
@@ -43,7 +39,7 @@ namespace DLogger.Extensions.Logging.Internal
 			return !_flushingInProgress && _logs.Count >= maxCount;
 		}
 
-		public static void Flush(IDatabaseLogWriter writer)
+		public static void Flush(ILogWriter writer)
 		{
 			if (!_flushingInProgress)
 			{
@@ -51,53 +47,5 @@ namespace DLogger.Extensions.Logging.Internal
 				Task.Run(() => writer.WriteBulk(_logs, _lockObject, ref _flushingInProgress));
 			}
 		}
-
-		//private static void WriteLogsToDatabase(string connectionString)
-		//{
-		//	var lockTaken = false;
-		//	var connection = new SqlConnection(connectionString);
-		//	connection.Open();
-		//	var transaction = connection.BeginTransaction();
-
-		//	try
-		//	{
-		//		using (var bulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock, transaction))
-		//		{
-		//			bulkCopy.DestinationTableName = "Logging";
-		//			foreach (var mapping in _columnMappings)
-		//				bulkCopy.ColumnMappings.Add(mapping.Key, mapping.Value);
-
-		//			Monitor.TryEnter(_lockObject, ref lockTaken);
-		//			if (lockTaken)
-		//			{
-		//				using (var reader = ObjectReader.Create(_logs, _columnMappings.Keys.ToArray()))
-		//				{
-		//					bulkCopy.BatchSize = _logs.Count;
-		//					bulkCopy.WriteToServer(reader);
-		//				}
-
-		//				transaction.Commit();
-		//			}
-		//		}
-		//	}
-		//	catch
-		//	{
-		//		if (connection.State == ConnectionState.Open)
-		//			transaction.Rollback();
-		//		throw;
-		//	}
-		//	finally
-		//	{
-		//		if (lockTaken)
-		//		{
-		//			_logs.Clear();
-		//			Monitor.Exit(_lockObject);
-		//		}
-
-		//		transaction.Dispose();
-		//		connection.Close();
-		//		_flushingInProgress = false;
-		//	}
-		//}
 	}
 }

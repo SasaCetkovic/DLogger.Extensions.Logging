@@ -1,17 +1,18 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using DLogger.Extensions.Logging.Contracts;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using System;
 
 namespace DLogger.Extensions.Logging
 {
-    public class DatabaseLoggerSettings : IDatabaseLoggerSettings
+	public class DLoggerSettings : ILoggerSettings
 	{
 		private IConfiguration _loggingConfiguration;
 		private const int DefaultCacheSize = 100;
 
 
-		#region IDatabaseLoggerSettings Properties
+		#region ILoggerSettings Properties
 
 		/// <summary>
 		/// Gets the token that propagates notifications about changes in configuration
@@ -19,12 +20,12 @@ namespace DLogger.Extensions.Logging
 		public IChangeToken ChangeToken { get; private set; }
 
 		/// <summary>
-		/// Gets the value indicating if log records should be witten to database in bulk
+		/// Gets the value indicating if log records should be witten in bulk
 		/// </summary>
 		public bool BulkWrite { get; }
 
 		/// <summary>
-		/// Gets the maximum number of log records that should be kept in cache, before flushing them to database
+		/// Gets the maximum number of log records that should be kept in cache, before flushing them to permanent storage
 		/// </summary>
 		public int BulkWriteCacheSize { get; }
 
@@ -40,7 +41,7 @@ namespace DLogger.Extensions.Logging
 		/// Constructor
 		/// </summary>
 		/// <param name="loggingConfiguration">The 'Logging' section of the configuration file</param>
-		public DatabaseLoggerSettings(IConfiguration loggingConfiguration)
+		public DLoggerSettings(IConfiguration loggingConfiguration)
 		{
 			_loggingConfiguration = loggingConfiguration;
 
@@ -64,16 +65,16 @@ namespace DLogger.Extensions.Logging
 		}
 
 
-		#region IDatabaseLoggerSettings Methods
+		#region ILoggerSettings Methods
 
 		/// <summary>
 		/// Reloads the configuration
 		/// </summary>
-		/// <returns>New <see cref="IDatabaseLoggerSettings"/> instance</returns>
-		public IDatabaseLoggerSettings Reload()
+		/// <returns>New <see cref="ILoggerSettings"/> instance</returns>
+		public ILoggerSettings Reload()
 		{
 			ChangeToken = null;
-			return new DatabaseLoggerSettings(_loggingConfiguration);
+			return new DLoggerSettings(_loggingConfiguration);
 		}
 
 		/// <summary>

@@ -1,15 +1,15 @@
-﻿using System;
-using Microsoft.Extensions.Logging;
+﻿using DLogger.Extensions.Logging.Contracts;
 using DLogger.Extensions.Logging.Internal;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Text;
 
 namespace DLogger.Extensions.Logging
 {
-	public class DatabaseLogger : ILogger
+	public class DLogger : ILogger
 	{
-		private string _connectionString;
 		private Func<string, LogLevel, bool> _filter;
-		private IDatabaseLogWriter _writer;
+		private ILogWriter _writer;
 
 
 		#region Properties
@@ -19,7 +19,7 @@ namespace DLogger.Extensions.Logging
 		/// </summary>
 		public string Category { get; }
 
-		public IDatabaseLoggerSettings Settings { get; set; }
+		public ILoggerSettings Settings { get; set; }
 
 		/// <summary>
 		/// Gets or sets the delegate used for filtering whether a log record should be discarded
@@ -41,7 +41,7 @@ namespace DLogger.Extensions.Logging
 		#endregion
 
 
-		public DatabaseLogger(string category, Func<string, LogLevel, bool> filter, IDatabaseLogWriter writer, IDatabaseLoggerSettings settings)
+		public DLogger(string category, Func<string, LogLevel, bool> filter, ILogWriter writer, ILoggerSettings settings)
 		{
 			_writer = writer;
 			_filter = filter;
@@ -67,30 +67,30 @@ namespace DLogger.Extensions.Logging
 
 		public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
 		{
-			if (!IsEnabled(logLevel)) return;
+			if (!IsEnabled(logLevel))
+				return;
 
 			var log = new LogRecord(eventId.Id, eventId.Name, logLevel, Category, GetScope(), state.ToString(), exception);
 
 			if (Settings.BulkWrite)
-				WriteBulk(log);
+			{
+				LogRecordCache.Add(log);
+
+				if (LogRecordCache.IsFull(Settings.BulkWriteCacheSize))
+				{
+					LogRecordCache.Flush(_writer);
+				}
+			}
 			else
+			{
 				_writer.WriteLog(log);
+			}
 		}
 
 		#endregion
 
 
 		#region Helpers
-
-		private void WriteBulk(LogRecord log)
-		{
-			LogRecordCache.Add(log);
-
-			if (LogRecordCache.IsFull(Settings.BulkWriteCacheSize))
-			{
-				LogRecordCache.Flush(_writer);
-			}
-		}
 
 		private string GetScope()
 		{

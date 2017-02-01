@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 
-namespace DLogger.Extensions.Logging
+namespace DLogger.Extensions.Logging.Contracts
 {
-	public interface IDatabaseLoggerSettings
+	public interface ILoggerSettings
 	{
 		/// <summary>
-		/// Gets the value indicating if log records should be witten to database in bulk
+		/// Gets the value indicating if log records should be written to a permanent storage in bulk
 		/// </summary>
 		bool BulkWrite { get; }
 
 		/// <summary>
-		/// Gets the maximum number of log records that should be kept in cache, before flushing them to database
+		/// Gets the maximum number of log records that should be kept in cache, before flushing them to permanent storage
 		/// </summary>
 		int BulkWriteCacheSize { get; }
 
@@ -28,8 +28,8 @@ namespace DLogger.Extensions.Logging
 		/// <summary>
 		/// Reloads the configuration
 		/// </summary>
-		/// <returns>New <see cref="IDatabaseLoggerSettings"/> instance</returns>
-		IDatabaseLoggerSettings Reload();
+		/// <returns>New <see cref="ILoggerSettings"/> instance</returns>
+		ILoggerSettings Reload();
 
 		/// <summary>
 		/// Retrieves the configured minimum log level for the specified category
