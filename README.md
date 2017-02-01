@@ -17,7 +17,7 @@ Database logger for ASP.NET Core (an implementation of common logging abstractio
 
 ### Configuration
 
-You need to call the `AddDLogger()` extension methond on loggerFactory in the `Configure()` method of your Startup class:
+You need to call the `AddDLogger()` extension on loggerFactory in the `Configure()` method of your Startup class:
 ```csharp
 var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
 loggerFactory.AddDLogger(Configuration.GetSection("Logging"), logWriter);
