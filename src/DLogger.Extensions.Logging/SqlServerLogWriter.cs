@@ -8,6 +8,9 @@ using System.Threading;
 
 namespace DLogger.Extensions.Logging
 {
+	/// <summary>
+	/// <see cref="ILogWriter"/> implementation for storing log records to SQL Server
+	/// </summary>
 	public class SqlServerLogWriter : ILogWriter
 	{
 		private Dictionary<string, string> _columnMappings;
@@ -39,10 +42,10 @@ namespace DLogger.Extensions.Logging
 		/// <param name="logs">List of <see cref="LogRecord"/> objects</param>
 		/// <param name="lockObject">Locking object</param>
 		/// <param name="flushingInProgress">Indicates if writing process is still in progress; set to false at the end of this method</param>
-		/// <exception cref="SqlException">If opening a connection through the provided connection string was not possible</exception>
 		public void WriteBulk(List<LogRecord> logs, object lockObject, ref bool flushingInProgress)
 		{
 			var lockTaken = false;
+			var exceptionThrown = false;
 			var connection = new SqlConnection(_connectionString);
 			connection.Open();
 			var transaction = connection.BeginTransaction();
@@ -53,7 +56,9 @@ namespace DLogger.Extensions.Logging
 				{
 					bulkCopy.DestinationTableName = "Logging";
 					foreach (var mapping in _columnMappings)
+					{
 						bulkCopy.ColumnMappings.Add(mapping.Key, mapping.Value);
+					}
 
 					Monitor.TryEnter(lockObject, ref lockTaken);
 					if (lockTaken)
@@ -71,14 +76,26 @@ namespace DLogger.Extensions.Logging
 			catch
 			{
 				if (connection.State == ConnectionState.Open)
+				{
 					transaction.Rollback();
-				throw;
+				}
+
+				exceptionThrown = true;
 			}
 			finally
 			{
 				if (lockTaken)
 				{
-					logs.Clear();
+					if (!exceptionThrown)
+					{
+						logs.Clear();
+					}
+					else
+					{
+						// Drop the older half of log records to prevent OutOfMemoryException
+						logs.RemoveRange(0, logs.Count / 2);
+					}
+
 					Monitor.Exit(lockObject);
 				}
 
@@ -91,7 +108,7 @@ namespace DLogger.Extensions.Logging
 		/// <summary>
 		/// Writes a single log record to database
 		/// </summary>
-		/// <param name="logRecord"><see cref="LogRecord"/> instance to be written</param>
+		/// <param name="log"><see cref="LogRecord"/> instance to be written</param>
 		public void WriteLog(LogRecord log)
 		{
 			using (var connection = new SqlConnection(_connectionString))

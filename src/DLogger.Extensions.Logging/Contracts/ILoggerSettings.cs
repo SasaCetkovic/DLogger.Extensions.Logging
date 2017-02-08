@@ -3,6 +3,9 @@ using Microsoft.Extensions.Primitives;
 
 namespace DLogger.Extensions.Logging.Contracts
 {
+	/// <summary>
+	/// Represents a type used to retrieve configuration data for <see cref="DLogger"/>
+	/// </summary>
 	public interface ILoggerSettings
 	{
 		/// <summary>

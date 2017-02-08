@@ -2,6 +2,9 @@
 
 namespace DLogger.Extensions.Logging.Contracts
 {
+	/// <summary>
+	/// Represents a type used to save log records to a permanent storage
+	/// </summary>
     public interface ILogWriter
     {
 		/// <summary>
@@ -19,7 +22,7 @@ namespace DLogger.Extensions.Logging.Contracts
 		/// <summary>
 		/// Writes a single log record to permanent storage
 		/// </summary>
-		/// <param name="logRecord"><see cref="LogRecord"/> instance to be written</param>
+		/// <param name="log"><see cref="LogRecord"/> instance to be written</param>
 		void WriteLog(LogRecord log);
 	}
 }

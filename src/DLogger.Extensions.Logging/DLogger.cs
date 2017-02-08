@@ -76,7 +76,7 @@ namespace DLogger.Extensions.Logging
 			{
 				LogRecordCache.Add(log);
 
-				if (LogRecordCache.IsFull(Settings.BulkWriteCacheSize))
+				if (LogRecordCache.IsFull)
 				{
 					LogRecordCache.Flush(_writer);
 				}

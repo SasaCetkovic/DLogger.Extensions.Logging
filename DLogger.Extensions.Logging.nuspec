@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--Get-ChildItem DLogger.Extensions.Logging.dll | % { [Reflection.Assembly]::LoadFile($_.FullName).GetReferencedAssemblies() | % { $_.Name + ".dll" } }-->
+<package >
+  <metadata>
+    <id>DLogger.Extensions.Logging</id>
+    <title>DLogger.Extensions.Logging</title>
+    <version>1.1.0.1</version>
+    <authors>Sasa Cetkovic</authors>
+    <owners>Sasa Cetkovic</owners>
+    <description>Database logger for ASP.NET Core (an implementation of common logging abstractions)</description>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <licenseUrl>https://github.com/SasaCetkovic/DLogger.Extensions.Logging/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/SasaCetkovic/DLogger.Extensions.Logging</projectUrl>
+    <tags>ASP.NET Core logging database logger</tags>
+    <releaseNotes>Performance improvements</releaseNotes>
+    <dependencies>
+      <dependency id="FastMember" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.Configuration.Abstractions" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.Logging.Abstractions" version="1.1.0" />
+      <dependency id="Microsoft.Extensions.Primitives" version="1.1.0" />
+      <dependency id="NETStandard.Library" version="1.6.1" />
+      <dependency id="System.Collections.Concurrent" version="4.3.0" />
+      <dependency id="System.Collections" version="4.3.0" />
+      <dependency id="System.Data.Common" version="4.3.0" />
+      <dependency id="System.Data.SqlClient" version="4.3.0" />
+      <dependency id="System.Diagnostics.Debug" version="4.3.0" />
+      <dependency id="System.Linq" version="4.3.0" />
+      <dependency id="System.Resources.ResourceManager" version="4.3.0" />
+      <dependency id="System.Runtime.Extensions" version="4.3.0" />
+      <dependency id="System.Runtime.InteropServices" version="4.3.0" />
+      <dependency id="System.Threading" version="4.3.0" />
+      <dependency id="System.Threading.Tasks" version="4.3.0" />
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="src\DLogger.Extensions.Logging\bin\Release\netstandard1.6\DLogger.Extensions.Logging.dll" target="lib\dotnet" />
+    <file src="src\DLogger.Extensions.Logging\bin\Release\netstandard1.6\DLogger.Extensions.Logging.pdb" target="lib\dotnet" />
+    <file src="src\DLogger.Extensions.Logging\bin\Release\netstandard1.6\DLogger.Extensions.Logging.xml" target="lib\dotnet" />
+  </files>
+</package>

@@ -4,7 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace DLogger.Extensions.Logging
 {
-    public static class DLoggerFactoryExtensions
+	/// <summary>
+	/// Extension methods for initializing <see cref="DLogger"/>
+	/// </summary>
+	public static class DLoggerFactoryExtensions
     {
 		/// <summary>
 		/// Adds a custom logging provider

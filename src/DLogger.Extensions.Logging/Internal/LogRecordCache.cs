@@ -7,10 +7,13 @@ namespace DLogger.Extensions.Logging.Internal
     internal static class LogRecordCache
     {
 		private static readonly List<LogRecord> _logs;
+		private static int _maxCacheSize;
 		private static bool _flushingInProgress = false;
 		private static object _lockObject = new object();
 
 		public static bool IsEmpty { get { return _flushingInProgress || _logs.Count == 0; } }
+
+		public static bool IsFull { get { return !_flushingInProgress && _logs.Count >= _maxCacheSize; } }
 
 
 		static LogRecordCache()
@@ -34,9 +37,10 @@ namespace DLogger.Extensions.Logging.Internal
 			}
 		}
 
-		public static bool IsFull(int maxCount)
+		public static void SetCapacity(int cacheSize)
 		{
-			return !_flushingInProgress && _logs.Count >= maxCount;
+			_maxCacheSize = cacheSize;
+			_logs.Capacity = cacheSize * 2;
 		}
 
 		public static void Flush(ILogWriter writer)

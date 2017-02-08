@@ -6,6 +6,9 @@ using System;
 
 namespace DLogger.Extensions.Logging
 {
+	/// <summary>
+	/// Default <see cref="ILoggerSettings"/> implementation
+	/// </summary>
 	public class DLoggerSettings : ILoggerSettings
 	{
 		private IConfiguration _loggingConfiguration;

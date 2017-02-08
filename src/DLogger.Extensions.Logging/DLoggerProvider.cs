@@ -7,6 +7,9 @@ using System.Collections.Generic;
 
 namespace DLogger.Extensions.Logging
 {
+	/// <summary>
+	/// <see cref="ILoggerProvider"/> implementation responsible for instantiation of <see cref="DLogger"/>
+	/// </summary>
 	public class DLoggerProvider : ILoggerProvider
 	{
 		#region Private Fields
@@ -19,6 +22,11 @@ namespace DLogger.Extensions.Logging
 		#endregion
 
 
+		/// <summary>
+		/// Constructor
+		/// </summary>
+		/// <param name="settings"><see cref="ILoggerSettings"/> implementation instance</param>
+		/// <param name="writer"><see cref="ILogWriter"/> implementation instance</param>
 		public DLoggerProvider(ILoggerSettings settings, ILogWriter writer)
 		{
 			if (settings == null)
@@ -28,6 +36,7 @@ namespace DLogger.Extensions.Logging
 
 			_settings = settings;
 			_writer = writer;
+			LogRecordCache.SetCapacity(_settings.BulkWriteCacheSize);
 
 			if (_settings.ChangeToken != null)
 			{
@@ -66,6 +75,8 @@ namespace DLogger.Extensions.Logging
 			{
 				LogRecordCache.Flush(_writer);
 			}
+
+			LogRecordCache.SetCapacity(_settings.BulkWriteCacheSize);
 
 			foreach (var logger in _loggers.Values)
 			{
