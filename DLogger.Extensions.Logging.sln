@@ -1,7 +1,7 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26114.2
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}"
 EndProject
@@ -10,16 +10,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
 		DLogger.Extensions.Logging.nuspec = DLogger.Extensions.Logging.nuspec
-		global.json = global.json
 		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DLogger.Extensions.Logging", "src\DLogger.Extensions.Logging\DLogger.Extensions.Logging.xproj", "{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogger.Extensions.Logging", "src\DLogger.Extensions.Logging\DLogger.Extensions.Logging.csproj", "{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4CE978A6-1715-4ACD-87CA-5A550917BE0D}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TestAspNetApplication", "test\TestAspNetApplication\TestAspNetApplication.xproj", "{2FD884FA-EBB2-4A79-902C-70EE665E0E67}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestAspNetApplication", "test\TestAspNetApplication\TestAspNetApplication.csproj", "{2FD884FA-EBB2-4A79-902C-70EE665E0E67}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogger.Extensions.Logging.Sqlite", "src\DLogger.Extensions.Logging.Sqlite\DLogger.Extensions.Logging.Sqlite.csproj", "{97851E74-B6BE-4FA7-9808-52A3DE761816}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogger.Extensions.Logging.Postgres", "src\DLogger.Extensions.Logging.Postgres\DLogger.Extensions.Logging.Postgres.csproj", "{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,6 +38,14 @@ Global
 		{2FD884FA-EBB2-4A79-902C-70EE665E0E67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2FD884FA-EBB2-4A79-902C-70EE665E0E67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2FD884FA-EBB2-4A79-902C-70EE665E0E67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97851E74-B6BE-4FA7-9808-52A3DE761816}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97851E74-B6BE-4FA7-9808-52A3DE761816}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97851E74-B6BE-4FA7-9808-52A3DE761816}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97851E74-B6BE-4FA7-9808-52A3DE761816}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -42,5 +53,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4FA03CAD-B35C-4798-9B07-D0B9E6EF3B0D} = {C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}
 		{2FD884FA-EBB2-4A79-902C-70EE665E0E67} = {4CE978A6-1715-4ACD-87CA-5A550917BE0D}
+		{97851E74-B6BE-4FA7-9808-52A3DE761816} = {C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}
+		{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6} = {C3CC630E-4AC5-4A93-A0FE-7BE94A43FD1D}
 	EndGlobalSection
 EndGlobal
