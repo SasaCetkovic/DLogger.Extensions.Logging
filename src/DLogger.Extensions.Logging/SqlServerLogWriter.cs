@@ -13,11 +13,11 @@ namespace DLogger.Extensions.Logging
 	/// </summary>
 	public class SqlServerLogWriter : ILogWriter
 	{
-		private Dictionary<string, string> _columnMappings;
-		private string _connectionString;
+		private readonly Dictionary<string, string> _columnMappings;
+		private readonly string _connectionString;
 
 		/// <summary>
-		/// Constructor
+		/// Initializes a new instance of the <see cref="SqlServerLogWriter"/> class
 		/// </summary>
 		/// <param name="connectionString">Connection string for the logging database</param>
 		public SqlServerLogWriter(string connectionString)

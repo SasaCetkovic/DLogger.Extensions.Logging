@@ -9,7 +9,7 @@ namespace DLogger.Extensions.Logging.Contracts
 	public interface ILoggerSettings
 	{
 		/// <summary>
-		/// Gets the value indicating if log records should be written to a permanent storage in bulk
+		/// Gets a value indicating whether log records should be written to a permanent storage in bulk
 		/// </summary>
 		bool BulkWrite { get; }
 
@@ -24,7 +24,7 @@ namespace DLogger.Extensions.Logging.Contracts
 		IChangeToken ChangeToken { get; }
 
 		/// <summary>
-		/// Gets the IncludeScopes setting
+		/// Gets a value indicating whether the logger should include scope information
 		/// </summary>
 		bool IncludeScopes { get; }
 

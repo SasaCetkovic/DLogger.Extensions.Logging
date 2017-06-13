@@ -9,7 +9,7 @@ namespace DLogger.Extensions.Logging.Contracts
 	public class LogRecord
     {
 		/// <summary>
-		/// Default constructor
+		/// Initializes a new instance of the <see cref="LogRecord"/> class
 		/// </summary>
 		public LogRecord()
 		{
@@ -17,7 +17,7 @@ namespace DLogger.Extensions.Logging.Contracts
 		}
 
 		/// <summary>
-		/// Recommended constructor
+		/// Initializes a new instance of the <see cref="LogRecord"/> class
 		/// </summary>
 		/// <param name="eventId">Event ID</param>
 		/// <param name="eventName">Event name</param>
@@ -39,42 +39,42 @@ namespace DLogger.Extensions.Logging.Contracts
 		}
 
 		/// <summary>
-		/// Log record time stamp
+		/// Gets the log record time stamp
 		/// </summary>
 		public DateTime LogTime { get; }
 
 		/// <summary>
-		/// Event ID
+		/// Gets or sets the event ID
 		/// </summary>
 		public int EventId { get; set; }
 
 		/// <summary>
-		/// Event name
+		/// Gets or sets the event name
 		/// </summary>
 		public string EventName { get; set; }
 
 		/// <summary>
-		/// Severity level
+		/// Gets or sets the severity level
 		/// </summary>
 		public LogLevel LogLevel { get; set; }
 
 		/// <summary>
-		/// Category name
+		/// Gets or sets the category name
 		/// </summary>
 		public string Category { get; set; }
 
 		/// <summary>
-		/// Logging scope
+		/// Gets or sets the logging scope
 		/// </summary>
 		public string Scope { get; set; }
 
 		/// <summary>
-		/// Log record message
+		/// Gets or sets the log record message
 		/// </summary>
 		public string Message { get; set; }
 
 		/// <summary>
-		/// Caught exception
+		/// Gets or sets the caught exception
 		/// </summary>
 		public Exception Exception { get; set; }
 	}

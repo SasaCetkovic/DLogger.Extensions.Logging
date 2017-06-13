@@ -1,5 +1,11 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright company=".NET Foundation" file="LogScope.cs">
+// All rights reserved.
+// </copyright>
+// <summary>
 // This file is a simplified version of Microsoft.Extensions.Logging.Console.ConsoleLogScope.cs
+// </summary>
+// --------------------------------------------------------------------------------------------------------------------
 
 using System;
 using System.Threading;
@@ -13,14 +19,8 @@ namespace DLogger.Extensions.Logging.Internal
 
 		public static LogScope Current
 		{
-			set
-			{
-				_value.Value = value;
-			}
-			get
-			{
-				return _value.Value;
-			}
+			get => _value.Value;
+			set => _value.Value = value;
 		}
 
 		public LogScope Parent { get; private set; }

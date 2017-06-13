@@ -11,37 +11,11 @@ namespace DLogger.Extensions.Logging
 	/// </summary>
 	public class DLoggerSettings : ILoggerSettings
 	{
-		private IConfiguration _loggingConfiguration;
-		private const int DefaultCacheSize = 100;
-
-
-		#region ILoggerSettings Properties
+		private const int _defaultCacheSize = 100;
+		private readonly IConfiguration _loggingConfiguration;
 
 		/// <summary>
-		/// Gets the token that propagates notifications about changes in configuration
-		/// </summary>
-		public IChangeToken ChangeToken { get; private set; }
-
-		/// <summary>
-		/// Gets the value indicating if log records should be witten in bulk
-		/// </summary>
-		public bool BulkWrite { get; }
-
-		/// <summary>
-		/// Gets the maximum number of log records that should be kept in cache, before flushing them to permanent storage
-		/// </summary>
-		public int BulkWriteCacheSize { get; }
-
-		/// <summary>
-		/// Gets the IncludeScopes setting
-		/// </summary>
-		public bool IncludeScopes { get; }
-
-		#endregion
-
-
-		/// <summary>
-		/// Constructor
+		/// Initializes a new instance of the <see cref="DLoggerSettings"/> class
 		/// </summary>
 		/// <param name="loggingConfiguration">The 'Logging' section of the configuration file</param>
 		public DLoggerSettings(IConfiguration loggingConfiguration)
@@ -58,7 +32,7 @@ namespace DLogger.Extensions.Logging
 
 			int cacheSize;
 			value = _loggingConfiguration["BulkWriteCacheSize"];
-			BulkWriteCacheSize = int.TryParse(value, out cacheSize) ? cacheSize : DefaultCacheSize;
+			BulkWriteCacheSize = int.TryParse(value, out cacheSize) ? cacheSize : _defaultCacheSize;
 
 			// Retrieve IncludeScopes setting
 			var includeScopes = false;
@@ -66,6 +40,31 @@ namespace DLogger.Extensions.Logging
 			bool.TryParse(value, out includeScopes);
 			IncludeScopes = includeScopes;
 		}
+
+
+		#region ILoggerSettings Properties
+
+		/// <summary>
+		/// Gets the token that propagates notifications about changes in configuration
+		/// </summary>
+		public IChangeToken ChangeToken { get; private set; }
+
+		/// <summary>
+		/// Gets a value indicating whether log records should be witten in bulk
+		/// </summary>
+		public bool BulkWrite { get; }
+
+		/// <summary>
+		/// Gets the maximum number of log records that should be kept in cache, before flushing them to permanent storage
+		/// </summary>
+		public int BulkWriteCacheSize { get; }
+
+		/// <summary>
+		/// Gets a value indicating whether the logger should include scope information
+		/// </summary>
+		public bool IncludeScopes { get; }
+
+		#endregion
 
 
 		#region ILoggerSettings Methods
@@ -89,9 +88,12 @@ namespace DLogger.Extensions.Logging
 		public bool TryGetSwitch(string category, out LogLevel level)
 		{
 			level = LogLevel.None;
+
 			var switches = _loggingConfiguration.GetSection("LogLevel");
 			if (switches == null)
+			{
 				return false;
+			}
 
 			var value = switches[category];
 			return Enum.TryParse(value, out level);

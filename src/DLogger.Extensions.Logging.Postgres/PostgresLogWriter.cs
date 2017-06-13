@@ -9,7 +9,7 @@ namespace DLogger.Extensions.Logging.Postgres
 {
 	public class PostgresLogWriter : ILogWriter
     {
-		private string _connectionString;
+		private readonly string _connectionString;
 
 		public PostgresLogWriter(string connectionString)
         {

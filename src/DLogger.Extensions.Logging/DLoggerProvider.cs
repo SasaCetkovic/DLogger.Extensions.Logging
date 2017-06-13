@@ -16,17 +16,17 @@ namespace DLogger.Extensions.Logging
 
 		private readonly ConcurrentDictionary<string, DLogger> _loggers = new ConcurrentDictionary<string, DLogger>();
 
+		private readonly ILogWriter _writer;
 		private ILoggerSettings _settings;
-		private ILogWriter _writer;
 
 		#endregion
 
-
 		/// <summary>
-		/// Constructor
+		/// Initializes a new instance of the <see cref="DLoggerProvider"/> class
 		/// </summary>
 		/// <param name="settings"><see cref="ILoggerSettings"/> implementation instance</param>
 		/// <param name="writer"><see cref="ILogWriter"/> implementation instance</param>
+		/// <exception cref="ArgumentNullException">If the passed <see cref="ILoggerSettings"/> instance is null</exception>
 		public DLoggerProvider(ILoggerSettings settings, ILogWriter writer)
 		{
 			if (settings == null)
@@ -38,10 +38,7 @@ namespace DLogger.Extensions.Logging
 			_writer = writer;
 			LogRecordCache.SetCapacity(_settings.BulkWriteCacheSize);
 
-			if (_settings.ChangeToken != null)
-			{
-				_settings.ChangeToken.RegisterChangeCallback(OnConfigurationReload, null);
-			}
+			_settings.ChangeToken?.RegisterChangeCallback(OnConfigurationReload, null);
 		}
 
 
@@ -66,6 +63,23 @@ namespace DLogger.Extensions.Logging
 
 		#region Helper Methods
 
+		private static IEnumerable<string> GetKeyPrefixes(string category)
+		{
+			while (!string.IsNullOrEmpty(category))
+			{
+				yield return category;
+				var lastIndexOfDot = category.LastIndexOf('.');
+
+				if (lastIndexOfDot == -1)
+				{
+					yield return "Default";
+					break;
+				}
+
+				category = category.Substring(0, lastIndexOfDot);
+			}
+		}
+
 		private void OnConfigurationReload(object state)
 		{
 			// Creating a new settings object, because the old one is probably holding on to an old change token.
@@ -85,10 +99,7 @@ namespace DLogger.Extensions.Logging
 			}
 
 			// The token will change each time it reloads, so we need to register again.
-			if (_settings?.ChangeToken != null)
-			{
-				_settings.ChangeToken.RegisterChangeCallback(OnConfigurationReload, null);
-			}
+			_settings?.ChangeToken?.RegisterChangeCallback(OnConfigurationReload, null);
 		}
 
 		private Func<string, LogLevel, bool> GetFilter(string category)
@@ -98,6 +109,7 @@ namespace DLogger.Extensions.Logging
 				foreach (var prefix in GetKeyPrefixes(category))
 				{
 					LogLevel level;
+
 					if (_settings.TryGetSwitch(prefix, out level))
 					{
 						return (cat, lev) => lev >= level;
@@ -106,22 +118,6 @@ namespace DLogger.Extensions.Logging
 			}
 
 			return (cat, lev) => false;
-		}
-
-		private IEnumerable<string> GetKeyPrefixes(string category)
-		{
-			while (!string.IsNullOrEmpty(category))
-			{
-				yield return category;
-				var lastIndexOfDot = category.LastIndexOf('.');
-				if (lastIndexOfDot == -1)
-				{
-					yield return "Default";
-					break;
-				}
-
-				category = category.Substring(0, lastIndexOfDot);
-			}
 		}
 
 		#endregion
