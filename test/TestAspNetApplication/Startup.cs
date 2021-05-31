@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using DLogger.Extensions.Logging;
 using DLogger.Extensions.Logging.Postgres;
+using DLogger.Extensions.Logging.Sybase;
 
 namespace TestAspNetApplication
 {
@@ -33,7 +34,7 @@ namespace TestAspNetApplication
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
 			////var logWriter = new SqlServerLogWriter(Configuration.GetConnectionString("Logging"));
-			var logWriter = new PostgresLogWriter(Configuration.GetConnectionString("PostgresLogging"));
+			var logWriter = new AceLogWriter(Configuration.GetConnectionString("PostgresLogging"));
             loggerFactory.AddConsole(Configuration.GetSection("Logging"))
 						 .AddDLogger(Configuration.GetSection("Logging"), logWriter);
 

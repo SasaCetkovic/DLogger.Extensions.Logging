@@ -6,12 +6,14 @@
     <AssemblyName>TestAspNetApplication</AssemblyName>
     <OutputType>Exe</OutputType>
     <PackageId>TestAspNetApplication</PackageId>
-    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>1.1.2</RuntimeFrameworkVersion>
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;portable-net45+win8</PackageTargetFallback>
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj" />
     <ProjectReference Include="..\..\src\DLogger.Extensions.Logging.Postgres\DLogger.Extensions.Logging.Postgres.csproj" />
+    <ProjectReference Include="..\..\src\DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj" />
     <ProjectReference Include="..\..\src\DLogger.Extensions.Logging\DLogger.Extensions.Logging.csproj" />
   </ItemGroup>
 
