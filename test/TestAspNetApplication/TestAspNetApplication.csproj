@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj" />
     <ProjectReference Include="..\..\src\DLogger.Extensions.Logging.Postgres\DLogger.Extensions.Logging.Postgres.csproj" />
+    <ProjectReference Include="..\..\src\DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj" />
     <ProjectReference Include="..\..\src\DLogger.Extensions.Logging\DLogger.Extensions.Logging.csproj" />
   </ItemGroup>
 
