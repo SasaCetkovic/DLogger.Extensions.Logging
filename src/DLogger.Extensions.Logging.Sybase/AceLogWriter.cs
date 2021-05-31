@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AdoNetCore.AseClient;
-
+using System.Data;
 
 namespace DLogger.Extensions.Logging.Sybase
 {
@@ -23,7 +23,8 @@ namespace DLogger.Extensions.Logging.Sybase
         public void WriteBulk(List<LogRecord> logs, object lockObject, ref bool flushingInProgress)
         {
             throw new Exception();
-		}
+
+        }
 
         public void WriteLog(LogRecord log)
         {
@@ -34,13 +35,13 @@ namespace DLogger.Extensions.Logging.Sybase
                 command.CommandType = System.Data.CommandType.StoredProcedure;
 
                 command.Parameters.AddWithValue("@eventID", log.EventId);
-                command.Parameters.AddWithValue("@eventName", log.EventName);
+                command.Parameters.AddWithValue("@eventName", log.EventName ?? string.Empty);
                 command.Parameters.AddWithValue("@logLevel", log.LogLevel.ToString());
                 command.Parameters.AddWithValue("@category", log.Category);
                 command.Parameters.AddWithValue("@scope", log.Scope);
                 command.Parameters.AddWithValue("@message", log.Message);
                 command.Parameters.AddWithValue("@logTime", log.LogTime);
-                command.Parameters.AddWithValue("@exception", log.Exception?.ToString());
+                command.Parameters.AddWithValue("@exception", log.Exception?.ToString() ?? string.Empty);   
 
                 command.ExecuteNonQuery();
             }

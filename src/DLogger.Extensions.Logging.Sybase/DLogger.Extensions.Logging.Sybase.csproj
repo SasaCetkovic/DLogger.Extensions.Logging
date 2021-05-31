@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\src\DLogger.Extensions.Logging\DLogger.Extensions.Logging.csproj" />
+    <ProjectReference Include="..\DLogger.Extensions.Logging\DLogger.Extensions.Logging.csproj" />
   </ItemGroup>
 
 </Project>

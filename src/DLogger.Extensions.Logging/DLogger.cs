@@ -9,23 +9,25 @@ namespace DLogger.Extensions.Logging
 	public class DLogger : ILogger
 	{
 		private readonly ILogWriter _writer;
-		private Func<string, LogLevel, bool> _filter;
+    
+        private Func<string, LogLevel, bool> _filter;
 
 		public DLogger(string category, Func<string, LogLevel, bool> filter, ILogWriter writer, ILoggerSettings settings)
 		{
 			_writer = writer;
 			_filter = filter;
 			Category = category;
-			Settings = settings;
+            Settings = settings;
 		}
 
 
-		#region Properties
+        #region Properties
 
-		/// <summary>
-		/// Gets the log category
-		/// </summary>
-		public string Category { get; }
+
+        /// <summary>
+        /// Gets the log category
+        /// </summary>
+        public string Category { get; }
 
 		/// <summary>
 		/// Gets or sets the <see cref="ILoggerSettings"/> instance

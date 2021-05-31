@@ -12,21 +12,22 @@ namespace DLogger.Extensions.Logging.Contracts
 		/// Initializes a new instance of the <see cref="LogRecord"/> class
 		/// </summary>
 		public LogRecord()
-		{
+		{			
 			LogTime = DateTime.Now;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="LogRecord"/> class
-		/// </summary>
-		/// <param name="eventId">Event ID</param>
-		/// <param name="eventName">Event name</param>
-		/// <param name="logLevel">Severity level</param>
-		/// <param name="categoryName">Category name</param>
-		/// <param name="scope">Logging scope</param>
-		/// <param name="message">Log record message</param>
-		/// <param name="exception">Caught exception</param>
-		public LogRecord(int eventId, string eventName, LogLevel logLevel, string categoryName, string scope, string message, Exception exception = null)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LogRecord"/> class
+        /// </summary>
+        /// <param name="eventId">Event ID</param>
+        /// <param name="eventName">Event name</param>
+        /// <param name="logLevel">Severity level</param>
+        /// <param name="categoryName">Category name</param>
+        /// <param name="scope">Logging scope</param>
+        /// <param name="message">Log record message</param>
+        /// <param name="exception">Caught exception</param>
+
+        public LogRecord(int eventId, string eventName, LogLevel logLevel, string categoryName, string scope, string message, Exception exception = null)
 		{
 			LogTime = DateTime.Now;
 			EventId = eventId;
@@ -35,13 +36,14 @@ namespace DLogger.Extensions.Logging.Contracts
 			Category = categoryName;
 			Scope = scope;
 			Message = message;
-			Exception = exception;
+			Exception = exception;			
 		}
 
-		/// <summary>
-		/// Gets the log record time stamp
-		/// </summary>
-		public DateTime LogTime { get; }
+
+        /// <summary>
+        /// Gets the log record time stamp
+        /// </summary>
+        public DateTime LogTime { get; }
 
 		/// <summary>
 		/// Gets or sets the event ID

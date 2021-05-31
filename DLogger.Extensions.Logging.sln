@@ -23,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLogger.Extensions.Logging.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLogger.Extensions.Logging.Postgres", "src\DLogger.Extensions.Logging.Postgres\DLogger.Extensions.Logging.Postgres.csproj", "{0FFF4C45-AA5A-4ABE-9204-4967F51D02C6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogger.Extensions.Logging.Sybase", "DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj", "{1949953B-94A7-4D20-85EB-1938747677B3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLogger.Extensions.Logging.Sybase", "src\DLogger.Extensions.Logging.Sybase\DLogger.Extensions.Logging.Sybase.csproj", "{1949953B-94A7-4D20-85EB-1938747677B3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

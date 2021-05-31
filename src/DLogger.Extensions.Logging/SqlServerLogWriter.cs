@@ -9,7 +9,7 @@ using System.Threading;
 namespace DLogger.Extensions.Logging
 {
 	/// <summary>
-	/// <see cref="ILogWriter"/> implementation for storing log records to SQL Server
+	/// <see cref="ILogWriter"/> implementation for storing log records to SQL Server //
 	/// </summary>
 	public class SqlServerLogWriter : ILogWriter
 	{
